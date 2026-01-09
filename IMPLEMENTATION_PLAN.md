@@ -120,7 +120,6 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 ## Phase 10: Documentation & Release Prep
 - [ ] Update README with usage instructions
 - [ ] Document version pattern (YYYY.M.N)
-- [ ] Add screenshots/demo if needed
 - [ ] Create build/release process documentation
 - [ ] Verify all features from features.md are implemented
 - [ ] Final code review and cleanup
