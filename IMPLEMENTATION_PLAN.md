@@ -59,27 +59,27 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 
 ---
 
-## Phase 6: Main Screen Controls
-- [ ] Add Play button to Main screen
-- [ ] Add Pause button to Main screen
-- [ ] Add Stop button to Main screen
-- [ ] Add Restart button to Main screen
-- [ ] Add Mute button to Main screen
-- [ ] Add Unmute button to Main screen
-- [ ] Add Toggle Audio button to Main screen
-- [ ] Add "Open in Browser" button to Main screen
-- [ ] Add Quit button to Main screen
-- [ ] Wire all buttons to audio playback service
-- [ ] Implement "Open in Browser" functionality
-- [ ] Add visual feedback for button states (enabled/disabled/active)
+## Phase 6: Main Screen Controls ✅
+- [x] Add Play button to Main screen
+- [x] Add Pause button to Main screen
+- [x] Add Stop button to Main screen
+- [x] Add Restart button to Main screen
+- [x] Add Mute button to Main screen
+- [x] Add Unmute button to Main screen
+- [x] Add Toggle Audio button to Main screen
+- [x] Add "Open in Browser" button to Main screen
+- [x] Add Quit button to Main screen
+- [x] Wire all buttons to audio playback service
+- [x] Implement "Open in Browser" functionality
+- [x] Add visual feedback for button states (enabled/disabled/active)
 
 ---
 
-## Phase 7: Live Stream Time Display
-- [ ] Implement live stream time tracking
-- [ ] Add time display component on Main screen
-- [ ] Format time display appropriately (HH:MM:SS or similar)
-- [ ] Update time display in real-time during playback
+## Phase 7: Live Stream Time Display ✅
+- [x] Implement live stream time tracking
+- [x] Add time display component on Main screen
+- [x] Format time display appropriately (HH:MM:SS or similar)
+- [x] Update time display in real-time during playback
 
 ---
 

@@ -18,6 +18,7 @@ class AudioPlaybackManager: ObservableObject {
     @Published var isMuted: Bool = false
     @Published var errorMessage: String?
     @Published var currentURL: String = ""
+    @Published var elapsedTime: TimeInterval = 0
 
     // MARK: - Private Properties
 
@@ -25,6 +26,9 @@ class AudioPlaybackManager: ObservableObject {
     private var playerObserver: Any?
     private var statusObservation: NSKeyValueObservation?
     private var cancellables = Set<AnyCancellable>()
+    private var playbackTimer: Timer?
+    private var playbackStartTime: Date?
+    private var accumulatedTime: TimeInterval = 0
 
     // MARK: - Playback State
 
@@ -72,6 +76,7 @@ class AudioPlaybackManager: ObservableObject {
 
     deinit {
         cleanup()
+        stopTimer()
     }
 
     // MARK: - Audio Session Setup
@@ -106,12 +111,15 @@ class AudioPlaybackManager: ObservableObject {
         guard playbackState.canPause else { return }
         player?.pause()
         playbackState = .paused
+        pauseTimer()
     }
 
     /// Stops the current playback and releases resources
     func stop() {
         guard playbackState.canStop else { return }
         cleanup()
+        stopTimer()
+        resetTimer()
         playbackState = .stopped
         currentURL = ""
     }
@@ -132,6 +140,7 @@ class AudioPlaybackManager: ObservableObject {
         guard case .paused = playbackState else { return }
         player?.play()
         playbackState = .playing
+        startTimer()
     }
 
     /// Mutes the audio
@@ -264,6 +273,7 @@ class AudioPlaybackManager: ObservableObject {
         // Start playback
         player?.play()
         playbackState = .playing
+        startTimer()
     }
 
     /// Handles player status changes
@@ -291,6 +301,8 @@ class AudioPlaybackManager: ObservableObject {
         errorMessage = message
         playbackState = .error(message)
         cleanup()
+        stopTimer()
+        resetTimer()
     }
 
     /// Cleans up player resources
@@ -300,6 +312,59 @@ class AudioPlaybackManager: ObservableObject {
         statusObservation = nil
         player?.replaceCurrentItem(with: nil)
         player = nil
+    }
+
+    // MARK: - Time Tracking
+
+    /// Starts the playback timer
+    private func startTimer() {
+        stopTimer() // Stop any existing timer
+        playbackStartTime = Date()
+
+        playbackTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            self?.updateElapsedTime()
+        }
+    }
+
+    /// Pauses the playback timer
+    private func pauseTimer() {
+        if let startTime = playbackStartTime {
+            accumulatedTime += Date().timeIntervalSince(startTime)
+        }
+        stopTimer()
+    }
+
+    /// Stops the playback timer
+    private func stopTimer() {
+        playbackTimer?.invalidate()
+        playbackTimer = nil
+        playbackStartTime = nil
+    }
+
+    /// Resets the elapsed time
+    private func resetTimer() {
+        accumulatedTime = 0
+        elapsedTime = 0
+    }
+
+    /// Updates the elapsed time
+    private func updateElapsedTime() {
+        guard let startTime = playbackStartTime else { return }
+        elapsedTime = accumulatedTime + Date().timeIntervalSince(startTime)
+    }
+
+    /// Formats time interval to HH:MM:SS string
+    static func formatTime(_ timeInterval: TimeInterval) -> String {
+        let totalSeconds = Int(timeInterval)
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+
+        if hours > 0 {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return String(format: "%02d:%02d", minutes, seconds)
+        }
     }
 }
 
