@@ -42,20 +42,20 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 
 ---
 
-## Phase 5: Audio Playback Engine
-- [ ] Research and choose audio extraction method (AVPlayer/AVFoundation, or youtube-dl alternative)
-- [ ] Implement YouTube live stream URL parsing
-- [ ] Implement audio stream extraction (audio-only, no video)
-- [ ] Create audio playback service/manager
-- [ ] Implement Play functionality
-- [ ] Implement Pause functionality
-- [ ] Implement Stop functionality
-- [ ] Implement Restart functionality
-- [ ] Implement Mute functionality
-- [ ] Implement Unmute functionality
-- [ ] Implement Toggle Audio functionality (mute/unmute toggle)
-- [ ] Handle playback state management
-- [ ] Add error handling for invalid URLs or connection issues
+## Phase 5: Audio Playback Engine ✅
+- [x] Research and choose audio extraction method (AVPlayer/AVFoundation, or youtube-dl alternative)
+- [x] Implement YouTube live stream URL parsing
+- [x] Implement audio stream extraction (audio-only, no video)
+- [x] Create audio playback service/manager
+- [x] Implement Play functionality
+- [x] Implement Pause functionality
+- [x] Implement Stop functionality
+- [x] Implement Restart functionality
+- [x] Implement Mute functionality
+- [x] Implement Unmute functionality
+- [x] Implement Toggle Audio functionality (mute/unmute toggle)
+- [x] Handle playback state management
+- [x] Add error handling for invalid URLs or connection issues
 
 ---
 
