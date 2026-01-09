@@ -10,8 +10,10 @@ import SwiftUI
 @main
 struct YoutubeLivePlayerApp: App {
     var body: some Scene {
-        WindowGroup {
+        // Menu bar app with window support
+        MenuBarExtra("Youtube Live Player", systemImage: "music.note.list") {
             ContentView()
         }
+        .menuBarExtraStyle(.window)
     }
 }
