@@ -44,23 +44,42 @@ struct MainView: View {
 
             // Playback State Indicator
             PlaybackStateView(state: audioManager.playbackState, isMuted: audioManager.isMuted)
+                .transition(.opacity.combined(with: .scale))
 
             // Time Display
             TimeDisplayView(elapsedTime: audioManager.elapsedTime, playbackState: audioManager.playbackState)
+                .transition(.opacity.combined(with: .scale))
 
             // Error Display
             if let errorMessage = audioManager.errorMessage {
-                Text(errorMessage)
-                    .font(.caption)
-                    .foregroundColor(.red)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.red.opacity(0.1))
-                    )
-                    .padding(.horizontal)
+                VStack(spacing: 8) {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.red)
+                        Text("Error")
+                            .font(.caption.bold())
+                            .foregroundColor(.red)
+                    }
+
+                    Text(errorMessage)
+                        .font(.caption)
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color.red.opacity(0.15))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.red.opacity(0.3), lineWidth: 1)
+                        )
+                )
+                .padding(.horizontal)
+                .transition(.opacity.combined(with: .scale(scale: 0.9)))
+                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: audioManager.errorMessage)
             }
 
             // Playback Controls Section
@@ -218,9 +237,16 @@ struct PlaybackStateView: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: stateIcon)
-                .foregroundColor(stateColor)
-                .imageScale(.large)
+            // Add spinning animation for loading state
+            if case .loading = state {
+                ProgressView()
+                    .controlSize(.small)
+                    .scaleEffect(0.8)
+            } else {
+                Image(systemName: stateIcon)
+                    .foregroundColor(stateColor)
+                    .imageScale(.large)
+            }
 
             Text(stateText)
                 .font(.headline)
@@ -238,6 +264,8 @@ struct PlaybackStateView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(stateColor.opacity(0.1))
         )
+        .animation(.easeInOut(duration: 0.2), value: state)
+        .animation(.easeInOut(duration: 0.2), value: isMuted)
     }
 
     private var stateText: String {

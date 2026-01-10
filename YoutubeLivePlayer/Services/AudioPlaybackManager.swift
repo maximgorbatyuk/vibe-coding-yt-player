@@ -95,8 +95,16 @@ class AudioPlaybackManager: ObservableObject {
 
     /// Plays audio from the specified YouTube URL
     func play(urlString: String) {
+        // Clear any previous errors
+        errorMessage = nil
+
+        guard !urlString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            setError("Please enter a YouTube URL in Settings")
+            return
+        }
+
         guard URLValidator.isValidYouTubeURL(urlString) else {
-            setError("Invalid YouTube URL")
+            setError("Invalid YouTube URL\n\nPlease enter a valid YouTube video or live stream URL.")
             return
         }
 
@@ -274,10 +282,24 @@ class AudioPlaybackManager: ObservableObject {
             }
         }
 
+        // Observe when playback ends (for non-live streams or when stream ends)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(playerDidFinishPlaying),
+            name: .AVPlayerItemDidPlayToEndTime,
+            object: playerItem
+        )
+
         // Start playback
         player?.play()
         playbackState = .playing
         startTimer()
+    }
+
+    @objc private func playerDidFinishPlaying() {
+        DispatchQueue.main.async { [weak self] in
+            self?.setError("Stream has ended.\n\nThe live stream or video has finished playing.")
+        }
     }
 
     /// Handles player status changes
@@ -289,9 +311,24 @@ class AudioPlaybackManager: ObservableObject {
             }
         case .failed:
             if let error = player?.currentItem?.error {
-                setError(error.localizedDescription)
+                // Provide more context for common errors
+                let nsError = error as NSError
+                if nsError.domain == NSURLErrorDomain {
+                    switch nsError.code {
+                    case NSURLErrorNotConnectedToInternet, NSURLErrorNetworkConnectionLost:
+                        setError(AudioPlaybackError.networkError.localizedDescription)
+                    case NSURLErrorTimedOut:
+                        setError("Connection timed out.\n\nThe stream took too long to respond. Please try again.")
+                    case NSURLErrorCannotFindHost, NSURLErrorCannotConnectToHost:
+                        setError("Cannot connect to server.\n\nPlease check your internet connection.")
+                    default:
+                        setError(error.localizedDescription)
+                    }
+                } else {
+                    setError(error.localizedDescription)
+                }
             } else {
-                setError("Playback failed")
+                setError("Playback failed unexpectedly.\n\nPlease try restarting the stream.")
             }
         case .unknown:
             break
@@ -314,6 +351,7 @@ class AudioPlaybackManager: ObservableObject {
         player?.pause()
         statusObservation?.invalidate()
         statusObservation = nil
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: nil)
         player?.replaceCurrentItem(with: nil)
         player = nil
     }
@@ -378,15 +416,32 @@ enum AudioPlaybackError: LocalizedError {
     case ytDlpNotFound
     case extractionFailed(String)
     case invalidStreamURL
+    case networkError
+    case streamUnavailable
 
     var errorDescription: String? {
         switch self {
         case .ytDlpNotFound:
-            return "yt-dlp is not installed. Please install it using: brew install yt-dlp"
+            return "yt-dlp is not installed.\n\nPlease install it using:\nbrew install yt-dlp\n\nOr visit: https://github.com/yt-dlp/yt-dlp"
         case .extractionFailed(let message):
-            return "Failed to extract audio stream: \(message)"
+            // Clean up technical error messages for user-friendly display
+            if message.contains("Private video") || message.contains("members-only") {
+                return "This video is private or members-only and cannot be played."
+            } else if message.contains("Video unavailable") {
+                return "This video is unavailable. It may have been removed or is not accessible."
+            } else if message.contains("live stream") && message.contains("not started") {
+                return "This live stream hasn't started yet. Please try again later."
+            } else if message.contains("Premieres in") {
+                return "This is a premiere that hasn't started yet. Please wait until it begins."
+            } else {
+                return "Unable to load the audio stream.\n\nPlease check:\n• The URL is correct\n• You have internet connection\n• The video/stream is available"
+            }
         case .invalidStreamURL:
-            return "Invalid audio stream URL"
+            return "Unable to retrieve the audio stream URL.\n\nThe video format may not be supported or the stream may be unavailable."
+        case .networkError:
+            return "Network error occurred.\n\nPlease check your internet connection and try again."
+        case .streamUnavailable:
+            return "Stream is no longer available.\n\nThe live stream may have ended or the video may have been removed."
         }
     }
 }

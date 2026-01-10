@@ -101,19 +101,19 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 
 ---
 
-## Phase 9: Polish & Testing
-- [ ] Test all playback controls (Play, Pause, Stop, Restart)
-- [ ] Test audio controls (Mute, Unmute, Toggle)
-- [ ] Test URL persistence across app restarts
-- [ ] Test menu bar context menu functionality
-- [ ] Test "Open in Browser" functionality
-- [ ] Test quit functionality from all locations
-- [ ] Handle edge cases (invalid URLs, network errors, stream unavailable)
-- [ ] Add user-friendly error messages
-- [ ] Test app behavior when minimized to menu bar
-- [ ] Verify app only appears in menu bar (not Dock)
-- [ ] Performance testing with live streams
-- [ ] Memory leak testing during extended playback
+## Phase 9: Polish & Testing ✅
+- [x] Test all playback controls (Play, Pause, Stop, Restart)
+- [x] Test audio controls (Mute, Unmute, Toggle)
+- [x] Test URL persistence across app restarts
+- [x] Test menu bar context menu functionality
+- [x] Test "Open in Browser" functionality
+- [x] Test quit functionality from all locations
+- [x] Handle edge cases (invalid URLs, network errors, stream unavailable)
+- [x] Add user-friendly error messages
+- [x] Test app behavior when minimized to menu bar
+- [x] Verify app only appears in menu bar (not Dock)
+- [x] Performance testing with live streams
+- [x] Memory leak testing during extended playback
 
 ---
 
@@ -122,6 +122,10 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 - [ ] Document version pattern (YYYY.M.N)
 - [ ] Create build/release process documentation
 - [ ] Verify all features from features.md are implemented
+
+---
+
+## Phase 11: Documentation & Release Prep
 - [ ] Final code review and cleanup
 - [ ] Prepare for release 2026.1.1
 
