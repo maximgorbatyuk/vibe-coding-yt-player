@@ -1,4 +1,4 @@
-# Youtube Live Player
+# VibeCodingYTPlayer
 
 A minimalist macOS menu bar application for playing audio from YouTube live streams and videos.
 
@@ -8,7 +8,7 @@ A minimalist macOS menu bar application for playing audio from YouTube live stre
 
 ## Overview
 
-Youtube Live Player is a lightweight macOS menu bar app that allows you to listen to YouTube live streams and videos as audio-only, without keeping a browser tab open. The app runs entirely from the menu bar, keeping your desktop clean while you enjoy your favorite content.
+VibeCodingYTPlayer is a lightweight macOS menu bar app that allows you to listen to YouTube live streams and videos as audio-only, without keeping a browser tab open. The app runs entirely from the menu bar, keeping your desktop clean while you enjoy your favorite content.
 
 ### Key Features
 
@@ -31,7 +31,7 @@ Youtube Live Player is a lightweight macOS menu bar app that allows you to liste
 
 ### 1. Install yt-dlp
 
-Youtube Live Player requires `yt-dlp` to extract audio streams from YouTube. Install it using Homebrew:
+VibeCodingYTPlayer requires `yt-dlp` to extract audio streams from YouTube. Install it using Homebrew:
 
 ```bash
 brew install yt-dlp
@@ -39,7 +39,7 @@ brew install yt-dlp
 
 Or download from the [official repository](https://github.com/yt-dlp/yt-dlp#installation).
 
-### 2. Install Youtube Live Player
+### 2. Install VibeCodingYTPlayer
 
 #### Option A: Build from Source
 1. Clone this repository:

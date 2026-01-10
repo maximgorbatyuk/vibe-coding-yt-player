@@ -70,7 +70,7 @@ SettingsView
 │   └── Help Text: "The URL will be saved automatically"
 ├── Spacer (flexible)
 ├── App Information Section
-│   ├── App Name: "Youtube Live Player"
+│   ├── App Name: "VibeCodingYTPlayer"
 │   └── Version: "Version 2026.1.1" (dynamic)
 └── Quit Button
     └── Red prominent button, 150pt width

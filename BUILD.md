@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the build and release process for Youtube Live Player, a macOS menu bar application.
+This document describes the build and release process for VibeCodingYTPlayer, a macOS menu bar application.
 
 ## Prerequisites
 
@@ -26,21 +26,21 @@ For local development and testing:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/YoutubeLivePlayer.git
-cd YoutubeLivePlayer
+git clone https://github.com/yourusername/VibeCodingYTPlayer.git
+cd VibeCodingYTPlayer
 
 # Open in Xcode
-open YoutubeLivePlayer.xcodeproj
+open VibeCodingYTPlayer.xcodeproj
 
 # Build and run (⌘R in Xcode)
 # Or via command line:
-xcodebuild -scheme YoutubeLivePlayer -configuration Debug build
+xcodebuild -scheme VibeCodingYTPlayer -configuration Debug build
 ```
 
 ### Running from Xcode
 
-1. Open `YoutubeLivePlayer.xcodeproj` in Xcode
-2. Select the "YoutubeLivePlayer" scheme
+1. Open `VibeCodingYTPlayer.xcodeproj` in Xcode
+2. Select the "VibeCodingYTPlayer" scheme
 3. Press ⌘R (or Product → Run)
 4. The app will appear in the menu bar
 5. Use breakpoints and debugging as needed
@@ -56,7 +56,7 @@ xcodebuild -scheme YoutubeLivePlayer -configuration Debug build
 
 #### 1.1 Update Version Number
 
-Edit `YoutubeLivePlayer/Info.plist`:
+Edit `VibeCodingYTPlayer/Info.plist`:
 
 ```xml
 <key>CFBundleShortVersionString</key>
@@ -77,7 +77,7 @@ Follow the version pattern documented in `VERSION.md`.
 
 ```bash
 # Build for release configuration
-xcodebuild -scheme YoutubeLivePlayer -configuration Release clean build
+xcodebuild -scheme VibeCodingYTPlayer -configuration Release clean build
 
 # Verify no errors
 echo $?  # Should output 0
@@ -94,7 +94,7 @@ echo $?  # Should output 0
 
 #### 2.1 Archive via Xcode
 
-1. Open `YoutubeLivePlayer.xcodeproj` in Xcode
+1. Open `VibeCodingYTPlayer.xcodeproj` in Xcode
 2. Select "Any Mac" as the destination
 3. Product → Archive
 4. Wait for the archive to complete
@@ -104,9 +104,9 @@ echo $?  # Should output 0
 
 ```bash
 xcodebuild archive \
-    -scheme YoutubeLivePlayer \
+    -scheme VibeCodingYTPlayer \
     -configuration Release \
-    -archivePath "./build/YoutubeLivePlayer.xcarchive"
+    -archivePath "./build/VibeCodingYTPlayer.xcarchive"
 ```
 
 ### Step 3: Export for Distribution
@@ -159,7 +159,7 @@ Then export:
 
 ```bash
 xcodebuild -exportArchive \
-    -archivePath "./build/YoutubeLivePlayer.xcarchive" \
+    -archivePath "./build/VibeCodingYTPlayer.xcarchive" \
     -exportPath "./build/export" \
     -exportOptionsPlist "./ExportOptions.plist"
 ```
@@ -169,13 +169,13 @@ xcodebuild -exportArchive \
 #### 4.1 Verify Code Signature
 
 ```bash
-codesign --verify --deep --strict --verbose=2 "./build/export/Youtube Live Player.app"
+codesign --verify --deep --strict --verbose=2 "./build/export/VibeCodingYTPlayer.app"
 ```
 
 Expected output:
 ```
-./build/export/Youtube Live Player.app: valid on disk
-./build/export/Youtube Live Player.app: satisfies its Designated Requirement
+./build/export/VibeCodingYTPlayer.app: valid on disk
+./build/export/VibeCodingYTPlayer.app: satisfies its Designated Requirement
 ```
 
 #### 4.2 Notarize the Application
@@ -185,28 +185,28 @@ Notarization is required for Gatekeeper to allow first-run without warnings.
 ```bash
 # Create a ZIP for notarization
 cd ./build/export
-zip -r "YoutubeLivePlayer.zip" "Youtube Live Player.app"
+zip -r "VibeCodingYTPlayer.zip" "VibeCodingYTPlayer.app"
 
 # Submit for notarization
-xcrun notarytool submit YoutubeLivePlayer.zip \
+xcrun notarytool submit VibeCodingYTPlayer.zip \
     --apple-id "your@email.com" \
     --password "app-specific-password" \
     --team-id "YOUR_TEAM_ID" \
     --wait
 
 # Staple the notarization ticket
-xcrun stapler staple "Youtube Live Player.app"
+xcrun stapler staple "VibeCodingYTPlayer.app"
 ```
 
 #### 4.3 Verify Notarization
 
 ```bash
-spctl -a -t exec -vv "Youtube Live Player.app"
+spctl -a -t exec -vv "VibeCodingYTPlayer.app"
 ```
 
 Expected output:
 ```
-Youtube Live Player.app: accepted
+VibeCodingYTPlayer.app: accepted
 source=Notarized Developer ID
 ```
 
@@ -216,17 +216,17 @@ source=Notarized Developer ID
 
 ```bash
 # Create a DMG for distribution
-hdiutil create -volname "Youtube Live Player" \
-    -srcfolder "Youtube Live Player.app" \
+hdiutil create -volname "VibeCodingYTPlayer" \
+    -srcfolder "VibeCodingYTPlayer.app" \
     -ov -format UDZO \
-    "YoutubeLivePlayer-YYYY.M.N.dmg"
+    "VibeCodingYTPlayer-YYYY.M.N.dmg"
 ```
 
 #### 5.2 Or Create ZIP
 
 ```bash
 # Create a ZIP for distribution
-zip -r "YoutubeLivePlayer-YYYY.M.N.zip" "Youtube Live Player.app"
+zip -r "VibeCodingYTPlayer-YYYY.M.N.zip" "VibeCodingYTPlayer.app"
 ```
 
 ### Step 6: Test the Build
@@ -237,7 +237,7 @@ zip -r "YoutubeLivePlayer-YYYY.M.N.zip" "Youtube Live Player.app"
 2. Delete any existing installation
 3. Clear saved preferences:
    ```bash
-   defaults delete com.yourdomain.YoutubeLivePlayer
+   defaults delete mgorbatyuk.dev.VibeCodingYTPlayer
    ```
 4. Install from the distribution package
 5. Test all features:
@@ -255,8 +255,8 @@ zip -r "YoutubeLivePlayer-YYYY.M.N.zip" "Youtube Live Player.app"
 Test that macOS Gatekeeper allows the app:
 
 ```bash
-xattr -d com.apple.quarantine "Youtube Live Player.app"
-open "Youtube Live Player.app"
+xattr -d com.apple.quarantine "VibeCodingYTPlayer.app"
+open "VibeCodingYTPlayer.app"
 ```
 
 ### Step 7: Create Git Tag
@@ -287,7 +287,7 @@ git push origin vYYYY.M.N
 1. Go to your repository on GitHub
 2. Click "Releases" → "Draft a new release"
 3. Choose the tag `vYYYY.M.N`
-4. Release title: "Youtube Live Player YYYY.M.N"
+4. Release title: "VibeCodingYTPlayer YYYY.M.N"
 5. Description: Copy changelog from `VERSION.md`
 6. Upload the DMG or ZIP file
 7. Click "Publish release"
@@ -300,8 +300,8 @@ brew install gh
 
 # Create release
 gh release create vYYYY.M.N \
-    "YoutubeLivePlayer-YYYY.M.N.dmg" \
-    --title "Youtube Live Player YYYY.M.N" \
+    "VibeCodingYTPlayer-YYYY.M.N.dmg" \
+    --title "VibeCodingYTPlayer YYYY.M.N" \
     --notes-file RELEASE_NOTES.md
 ```
 
@@ -343,19 +343,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build
-        run: xcodebuild -scheme YoutubeLivePlayer -configuration Release build
+        run: xcodebuild -scheme VibeCodingYTPlayer -configuration Release build
       - name: Archive
-        run: xcodebuild archive -scheme YoutubeLivePlayer -archivePath ./build/YoutubeLivePlayer.xcarchive
+        run: xcodebuild archive -scheme VibeCodingYTPlayer -archivePath ./build/VibeCodingYTPlayer.xcarchive
       - name: Export
-        run: xcodebuild -exportArchive -archivePath ./build/YoutubeLivePlayer.xcarchive -exportPath ./build/export
+        run: xcodebuild -exportArchive -archivePath ./build/VibeCodingYTPlayer.xcarchive -exportPath ./build/export
       - name: Create DMG
-        run: hdiutil create -volname "Youtube Live Player" -srcfolder ./build/export -ov -format UDZO YoutubeLivePlayer.dmg
+        run: hdiutil create -volname "VibeCodingYTPlayer" -srcfolder ./build/export -ov -format UDZO VibeCodingYTPlayer.dmg
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./YoutubeLivePlayer.dmg
-          asset_name: YoutubeLivePlayer-${{ github.ref_name }}.dmg
+          asset_path: ./VibeCodingYTPlayer.dmg
+          asset_name: VibeCodingYTPlayer-${{ github.ref_name }}.dmg
           asset_content_type: application/octet-stream
 ```
 
@@ -392,7 +392,7 @@ security find-identity -v -p codesigning
 **Solution**: Clean build folder and try again:
 ```bash
 rm -rf ~/Library/Developer/Xcode/DerivedData
-xcodebuild clean -scheme YoutubeLivePlayer
+xcodebuild clean -scheme VibeCodingYTPlayer
 ```
 
 #### Notarization Failed
@@ -404,22 +404,22 @@ xcrun notarytool log <submission-id> --apple-id "your@email.com" --password "app
 #### App Doesn't Run on Other Macs
 **Solution**: Ensure code signing and notarization were successful. Check quarantine attribute:
 ```bash
-xattr -l "Youtube Live Player.app"
+xattr -l "VibeCodingYTPlayer.app"
 ```
 
 ## File Structure
 
 ```
-YoutubeLivePlayer/
-├── YoutubeLivePlayer.xcodeproj    # Xcode project
-├── YoutubeLivePlayer/              # Source code
-│   ├── YoutubeLivePlayerApp.swift # App entry point
+VibeCodingYTPlayer/
+├── VibeCodingYTPlayer.xcodeproj    # Xcode project
+├── VibeCodingYTPlayer/              # Source code
+│   ├── VibeCodingYTPlayerApp.swift # App entry point
 │   ├── Views/                      # SwiftUI views
 │   ├── Services/                   # Business logic
 │   ├── Models/                     # Data models
 │   └── Info.plist                  # App configuration
 ├── build/                          # Build output (gitignored)
-│   ├── YoutubeLivePlayer.xcarchive # Archive
+│   ├── VibeCodingYTPlayer.xcarchive # Archive
 │   └── export/                     # Exported app
 ├── README.md                       # User documentation
 ├── BUILD.md                        # This file

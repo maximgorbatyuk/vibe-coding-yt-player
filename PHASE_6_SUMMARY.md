@@ -1,7 +1,7 @@
 # Phase 6 Implementation Summary: Main Screen Controls
 
 ## Overview
-Phase 6 implements the main user interface controls for the Youtube Live Player application. This phase integrates the AudioPlaybackManager (from Phase 5) with a comprehensive SwiftUI interface, providing users with full control over audio playback.
+Phase 6 implements the main user interface controls for the VibeCodingYTPlayer application. This phase integrates the AudioPlaybackManager (from Phase 5) with a comprehensive SwiftUI interface, providing users with full control over audio playback.
 
 ## Implementation Date
 January 9, 2026

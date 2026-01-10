@@ -12,7 +12,7 @@ January 9, 2026
 ### 2. Info.plist Configuration ✅
 - Created custom Info.plist at `/YoutubeLivePlayer/Info.plist`
 - Configured `LSUIElement = true` to make app appear only in menu bar (not in Dock)
-- Set `CFBundleDisplayName` to "Youtube Live Player"
+- Set `CFBundleDisplayName` to "VibeCodingYTPlayer"
 - Set `CFBundleShortVersionString` to "2026.1.1"
 - Configured English as development region
 
@@ -72,7 +72,7 @@ Using modern SwiftUI approach with `MenuBarExtra`:
 
 ### App Configuration
 - Bundle Identifier: `mgorbatyuk.dev.YoutubeLivePlayer`
-- Display Name: "Youtube Live Player"
+- Display Name: "VibeCodingYTPlayer"
 - Version: 2026.1.1 (Build 1)
 - Minimum Deployment: macOS 26.1
 

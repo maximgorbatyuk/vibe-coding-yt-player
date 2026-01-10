@@ -44,7 +44,7 @@ class MenuBarManager: NSObject {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
-            button.image = NSImage(systemSymbolName: "music.note.list", accessibilityDescription: "Youtube Live Player")
+            button.image = NSImage(systemSymbolName: "music.note.list", accessibilityDescription: "VibeCodingYTPlayer")
             button.target = self
             button.action = #selector(togglePopover)
         }
@@ -104,7 +104,7 @@ class MenuBarManager: NSObject {
         let menu = NSMenu()
 
         // App title
-        let titleItem = NSMenuItem(title: "Youtube Live Player", action: nil, keyEquivalent: "")
+        let titleItem = NSMenuItem(title: "VibeCodingYTPlayer", action: nil, keyEquivalent: "")
         titleItem.isEnabled = false
         menu.addItem(titleItem)
 

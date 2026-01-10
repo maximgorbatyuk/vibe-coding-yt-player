@@ -1,4 +1,4 @@
-# Implementation Plan: Youtube Live Player
+# Implementation Plan: VibeCodingYTPlayer
 
 ## Overview
 macOS menu bar application to play audio from YouTube live streams with minimal external dependencies.
@@ -7,7 +7,7 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 
 ## Phase 1: Project Setup & Architecture
 - [ ] Create/verify Xcode project structure for macOS menu bar app
-- [ ] Set up app name: "Youtube Live Player"
+- [ ] Set up app name: "VibeCodingYTPlayer"
 - [ ] Configure initial version: 2026.1.1
 - [ ] Set up project to run as menu bar app (LSUIElement = YES)
 - [ ] Configure app to use English as single language

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Youtube Live Player follows a calendar-based versioning scheme that makes it easy to identify when a release was published.
+VibeCodingYTPlayer follows a calendar-based versioning scheme that makes it easy to identify when a release was published.
 
 ## Version Format
 
@@ -27,7 +27,7 @@ Where:
 
 **2026.1.1** - First release in January 2026
 
-This is the initial public release of Youtube Live Player.
+This is the initial public release of VibeCodingYTPlayer.
 
 ## Version History
 

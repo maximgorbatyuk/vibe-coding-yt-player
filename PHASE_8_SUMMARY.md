@@ -2,7 +2,7 @@
 
 ## Overview
 
-Phase 8 implements comprehensive menu bar integration for the Youtube Live Player application. This phase adds a native macOS menu bar icon with a context menu that provides quick access to all playback controls, audio controls, and app actions without needing to open the main window.
+Phase 8 implements comprehensive menu bar integration for the VibeCodingYTPlayer application. This phase adds a native macOS menu bar icon with a context menu that provides quick access to all playback controls, audio controls, and app actions without needing to open the main window.
 
 ## Implementation Details
 

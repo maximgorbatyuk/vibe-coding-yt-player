@@ -10,7 +10,7 @@ The applicatiomn should accept a YouTube live stream URL and play the audio from
 - [ ] Add context menu to the app icon in the macos bar. Buttons: Play, Pause, Stop, Restart, Mute, Unmute, Toggle Audio, Open in Browser, Quit
 - [ ] The app should save last used YouTube live stream URL in the user defaults.
 - [ ] The single language is English.
-- [ ] The name of the app is "Youtube Live Player".
+- [ ] The name of the app is "VibeCodingYTPlayer".
 - [ ] The version pattern of the app is "YYYY.M.N", where N - the number of the release on month M in Year YYYY. Example: 2026.1.1 - first release in January 2026.
 
 ## Main screen

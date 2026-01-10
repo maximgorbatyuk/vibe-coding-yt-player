@@ -1,7 +1,7 @@
 # Test Checklist - Phase 9
 
 ## Overview
-This document provides a comprehensive test checklist for the Youtube Live Player application. All core functionality has been verified through code review and implementation testing.
+This document provides a comprehensive test checklist for the VibeCodingYTPlayer application. All core functionality has been verified through code review and implementation testing.
 
 ## 1. Playback Controls Testing
 

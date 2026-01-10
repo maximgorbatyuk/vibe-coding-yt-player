@@ -266,7 +266,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 2026.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = mgorbatyuk.dev.YoutubeLivePlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = mgorbatyuk.dev.VibeCodingYTPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -299,7 +299,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 2026.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = mgorbatyuk.dev.YoutubeLivePlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = mgorbatyuk.dev.VibeCodingYTPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

@@ -69,7 +69,7 @@ This document verifies that all features from `features.md` have been successful
 **Verification**: `Info.plist` line 6 (CFBundleDevelopmentRegion = en)
 
 ### App Name
-**Requirement**: The name of the app is "Youtube Live Player".
+**Requirement**: The name of the app is "VibeCodingYTPlayer".
 
 **Implementation**: ✅ Completed in Phase 1
 - ✅ Display name set correctly
