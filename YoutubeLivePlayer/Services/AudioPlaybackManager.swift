@@ -180,10 +180,24 @@ class AudioPlaybackManager: ObservableObject {
 
     /// Extracts audio stream URL using yt-dlp and starts playback
     private func extractAndPlay(youtubeURL: String) async {
+
+        if (!YtDlpInstaller.shared.isYtDlpInstalled()) {
+            await MainActor.run {
+                self.setError("yt-dlp is not installed.\n\nPlease restart the application to download and install it.")
+            }
+
+            return;
+        }
+
         do {
             let streamURL = try await extractAudioStreamURL(from: youtubeURL)
             await MainActor.run {
                 self.startPlayback(with: streamURL)
+            }
+        } catch AudioPlaybackError.ytDlpNotFound {
+            // yt-dlp is not found
+            await MainActor.run {
+                self.setError("yt-dlp is not installed.\n\nPlease restart the application to download and install it.")
             }
         } catch {
             await MainActor.run {
@@ -203,6 +217,7 @@ class AudioPlaybackManager: ObservableObject {
         process.arguments = [
             "--format", "bestaudio",
             "--get-url",
+            "--no-warnings",
             youtubeURL
         ]
 
@@ -222,6 +237,7 @@ class AudioPlaybackManager: ObservableObject {
 
         let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
         guard let outputString = String(data: outputData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !outputString.isEmpty,
               let streamURL = URL(string: outputString) else {
             throw AudioPlaybackError.invalidStreamURL
         }
@@ -231,39 +247,12 @@ class AudioPlaybackManager: ObservableObject {
 
     /// Finds yt-dlp installation path
     private func findYtDlp() async throws -> String {
-        // Try common installation paths
-        let possiblePaths = [
-            "/opt/homebrew/bin/yt-dlp",  // Homebrew on Apple Silicon
-            "/usr/local/bin/yt-dlp",      // Homebrew on Intel
-            "/usr/bin/yt-dlp",            // System installation
-            "\(NSHomeDirectory())/.local/bin/yt-dlp"  // User local installation
-        ]
-
-        for path in possiblePaths {
-            if FileManager.default.fileExists(atPath: path) {
-                return path
-            }
+        // Check if YtDlpInstaller knows where it is
+        if let installedPath = YtDlpInstaller.shared.getYtDlpPath() {
+            return installedPath
         }
 
-        // Try using 'which' command
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/which")
-        process.arguments = ["yt-dlp"]
-
-        let pipe = Pipe()
-        process.standardOutput = pipe
-
-        try? process.run()
-        process.waitUntilExit()
-
-        if process.terminationStatus == 0 {
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            if let path = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines),
-               !path.isEmpty {
-                return path
-            }
-        }
-
+        // If still not found, throw error with helpful message
         throw AudioPlaybackError.ytDlpNotFound
     }
 
@@ -422,7 +411,7 @@ enum AudioPlaybackError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .ytDlpNotFound:
-            return "yt-dlp is not installed.\n\nPlease install it using:\nbrew install yt-dlp\n\nOr visit: https://github.com/yt-dlp/yt-dlp"
+            return "yt-dlp is not installed.\n\nPlease restart the application to download and install it."
         case .extractionFailed(let message):
             // Clean up technical error messages for user-friendly display
             if message.contains("Private video") || message.contains("members-only") {

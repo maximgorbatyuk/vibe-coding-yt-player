@@ -12,35 +12,58 @@ struct MainView: View {
     @ObservedObject private var audioManager = AudioPlaybackManager.shared
     @AppStorage("youtubeURL") private var youtubeURL: String = ""
 
+    private var isURLValid: Bool {
+        youtubeURL.isEmpty || URLValidator.isValidYouTubeURL(youtubeURL)
+    }
+
+    private var urlValidationMessage: String {
+        if youtubeURL.isEmpty {
+            return "Enter a YouTube URL to start"
+        } else if URLValidator.isValidYouTubeURL(youtubeURL) {
+            if let videoID = URLValidator.extractVideoID(from: youtubeURL) {
+                return "Valid (ID: \(videoID))"
+            }
+            return "Valid YouTube URL"
+        } else {
+            return "Invalid YouTube URL format"
+        }
+    }
+
+    private var validationColor: Color {
+        if youtubeURL.isEmpty {
+            return .secondary
+        } else if URLValidator.isValidYouTubeURL(youtubeURL) {
+            return .green
+        } else {
+            return .red
+        }
+    }
+
     var body: some View {
         VStack(spacing: 20) {
-            // Header
-            Text("Main Screen")
-                .font(.title)
-                .padding(.top)
 
-            // URL Display Section
-            VStack(spacing: 8) {
-                if !youtubeURL.isEmpty {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Current URL:")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+            // YouTube URL Input Section
+            VStack(alignment: .leading, spacing: 8) {
+                Text("YouTube URL")
+                    .font(.headline)
 
-                        Text(youtubeURL)
-                            .font(.caption)
-                            .lineLimit(2)
-                            .truncationMode(.middle)
-                            .foregroundColor(.blue)
+                HStack {
+                    TextField("Enter YouTube URL", text: $youtubeURL)
+                        .textFieldStyle(.roundedBorder)
+
+                    // Validation indicator
+                    if !youtubeURL.isEmpty {
+                        Image(systemName: isURLValid ? "checkmark.circle.fill" : "xmark.circle.fill")
+                            .foregroundColor(isURLValid ? .green : .red)
+                            .imageScale(.large)
                     }
-                    .padding(.horizontal)
-                } else {
-                    Text("No URL set. Go to Settings to add a YouTube URL.")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
                 }
+
+                Text(urlValidationMessage)
+                    .font(.caption)
+                    .foregroundColor(validationColor)
             }
+            .padding(.horizontal)
 
             // Playback State Indicator
             PlaybackStateView(state: audioManager.playbackState, isMuted: audioManager.isMuted)

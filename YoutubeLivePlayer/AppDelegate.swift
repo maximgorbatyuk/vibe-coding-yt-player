@@ -13,7 +13,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var menuBarManager: MenuBarManager?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Initialize menu bar manager with shared audio manager
-        menuBarManager = MenuBarManager(audioManager: AudioPlaybackManager.shared)
+        YtDlpInstaller.shared.ensureInstalled { [weak self] success in
+            if success {
+                DispatchQueue.main.async {
+                    self?.menuBarManager = MenuBarManager(audioManager: AudioPlaybackManager.shared)
+                }
+            }
+        }
     }
 }

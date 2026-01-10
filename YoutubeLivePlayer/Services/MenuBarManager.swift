@@ -18,6 +18,7 @@ class MenuBarManager: NSObject {
     private let audioManager: AudioPlaybackManager
     private var cancellables = Set<AnyCancellable>()
     private var popover: NSPopover?
+    private var contextMenu: NSMenu?
 
     // Menu items that need state updates
     private var playMenuItem: NSMenuItem?
@@ -46,7 +47,8 @@ class MenuBarManager: NSObject {
         if let button = statusItem?.button {
             button.image = NSImage(systemSymbolName: "music.note.list", accessibilityDescription: "VibeCodingYTPlayer")
             button.target = self
-            button.action = #selector(togglePopover)
+            button.action = #selector(statusItemClicked(_:))
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
 
         updateMenu()
@@ -60,6 +62,18 @@ class MenuBarManager: NSObject {
         popover?.contentViewController = NSHostingController(rootView: ContentView())
     }
 
+    @objc private func statusItemClicked(_ sender: NSStatusBarButton) {
+        guard let event = NSApp.currentEvent else { return }
+
+        if event.type == .rightMouseUp {
+            // Right-click: show context menu
+            showContextMenu()
+        } else {
+            // Left-click: toggle popover
+            togglePopover()
+        }
+    }
+
     @objc private func togglePopover() {
         guard let button = statusItem?.button else { return }
 
@@ -70,6 +84,14 @@ class MenuBarManager: NSObject {
                 popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
             }
         }
+    }
+
+    private func showContextMenu() {
+        guard let button = statusItem?.button, let menu = contextMenu else { return }
+        statusItem?.menu = menu
+        button.performClick(nil)
+        // Remove the menu after showing to allow click detection next time
+        statusItem?.menu = nil
     }
 
     private func setupObservers() {
@@ -161,10 +183,8 @@ class MenuBarManager: NSObject {
         let quitItem = createMenuItem(title: "Quit", action: #selector(quitAction), key: "q")
         menu.addItem(quitItem)
 
-        // Important: Set the menu but also allow click action
-        // Note: In macOS, setting a menu makes the item show menu on click
-        // To show popover, users can use the keyboard shortcut or menu item
-        statusItem?.menu = menu
+        // Store the menu for right-click access (don't set it on statusItem)
+        contextMenu = menu
         updateMenuItemStates()
     }
 
