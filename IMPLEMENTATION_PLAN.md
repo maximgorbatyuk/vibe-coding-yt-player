@@ -117,11 +117,11 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 
 ---
 
-## Phase 10: Documentation & Release Prep
-- [ ] Update README with usage instructions
-- [ ] Document version pattern (YYYY.M.N)
-- [ ] Create build/release process documentation
-- [ ] Verify all features from features.md are implemented
+## Phase 10: Documentation & Release Prep ✅
+- [x] Update README with usage instructions
+- [x] Document version pattern (YYYY.M.N)
+- [x] Create build/release process documentation
+- [x] Verify all features from features.md are implemented
 
 ---
 
