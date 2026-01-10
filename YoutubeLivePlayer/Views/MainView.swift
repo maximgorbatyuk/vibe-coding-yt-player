@@ -9,7 +9,7 @@ import SwiftUI
 import AppKit
 
 struct MainView: View {
-    @StateObject private var audioManager = AudioPlaybackManager()
+    @ObservedObject private var audioManager = AudioPlaybackManager.shared
     @AppStorage("youtubeURL") private var youtubeURL: String = ""
 
     var body: some View {

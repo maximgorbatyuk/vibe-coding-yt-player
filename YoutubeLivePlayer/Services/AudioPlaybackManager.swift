@@ -12,6 +12,10 @@ import Combine
 /// Manages audio playback from YouTube live streams
 /// Uses yt-dlp to extract audio stream URLs and AVPlayer for playback
 class AudioPlaybackManager: ObservableObject {
+    // MARK: - Shared Instance
+
+    static let shared = AudioPlaybackManager()
+
     // MARK: - Published Properties
 
     @Published var playbackState: PlaybackState = .stopped

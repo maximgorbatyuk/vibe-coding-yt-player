@@ -9,11 +9,13 @@ import SwiftUI
 
 @main
 struct YoutubeLivePlayerApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
-        // Menu bar app with window support
-        MenuBarExtra("Youtube Live Player", systemImage: "music.note.list") {
-            ContentView()
+        // Note: We use AppDelegate with MenuBarManager for menu bar integration
+        // This provides both context menu and window access via the status item
+        Settings {
+            EmptyView()
         }
-        .menuBarExtraStyle(.window)
     }
 }

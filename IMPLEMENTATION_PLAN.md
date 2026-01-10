@@ -83,21 +83,21 @@ macOS menu bar application to play audio from YouTube live streams with minimal 
 
 ---
 
-## Phase 8: Menu Bar Integration
-- [ ] Create NSStatusItem for menu bar icon
-- [ ] Design/add menu bar icon
-- [ ] Create menu bar context menu
-- [ ] Add "Play" option to context menu
-- [ ] Add "Pause" option to context menu
-- [ ] Add "Stop" option to context menu
-- [ ] Add "Restart" option to context menu
-- [ ] Add "Mute" option to context menu
-- [ ] Add "Unmute" option to context menu
-- [ ] Add "Toggle Audio" option to context menu
-- [ ] Add "Open in Browser" option to context menu
-- [ ] Add "Quit" option to context menu
-- [ ] Wire all context menu items to audio playback service
-- [ ] Implement menu item state updates (enable/disable based on playback state)
+## Phase 8: Menu Bar Integration ✅
+- [x] Create NSStatusItem for menu bar icon
+- [x] Design/add menu bar icon
+- [x] Create menu bar context menu
+- [x] Add "Play" option to context menu
+- [x] Add "Pause" option to context menu
+- [x] Add "Stop" option to context menu
+- [x] Add "Restart" option to context menu
+- [x] Add "Mute" option to context menu
+- [x] Add "Unmute" option to context menu
+- [x] Add "Toggle Audio" option to context menu
+- [x] Add "Open in Browser" option to context menu
+- [x] Add "Quit" option to context menu
+- [x] Wire all context menu items to audio playback service
+- [x] Implement menu item state updates (enable/disable based on playback state)
 
 ---
 
