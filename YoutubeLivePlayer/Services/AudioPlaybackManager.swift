@@ -183,7 +183,7 @@ class AudioPlaybackManager: ObservableObject {
 
         if (!YtDlpInstaller.shared.isYtDlpInstalled()) {
             await MainActor.run {
-                self.setError("yt-dlp is not installed.\n\nPlease restart the application to download and install it.")
+                self.setError("yt-dlp is not installed.\n\nPlease install it using:\nbrew install yt-dlp")
             }
 
             return;
@@ -197,7 +197,7 @@ class AudioPlaybackManager: ObservableObject {
         } catch AudioPlaybackError.ytDlpNotFound {
             // yt-dlp is not found
             await MainActor.run {
-                self.setError("yt-dlp is not installed.\n\nPlease restart the application to download and install it.")
+                self.setError("yt-dlp is not installed.\n\nPlease install it using:\nbrew install yt-dlp")
             }
         } catch {
             await MainActor.run {
@@ -215,9 +215,13 @@ class AudioPlaybackManager: ObservableObject {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: ytDlpPath)
         process.arguments = [
-            "--format", "bestaudio",
-            "--get-url",
+            "--f", "bestaudio[ext=m4a]/bestaudio/best",
+            "--g",
             "--no-warnings",
+            "--no-playlist",
+            "--user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+            "--extractor-args", "youtube:player_client=ios,web",
+            "--verbose",
             youtubeURL
         ]
 
@@ -226,7 +230,13 @@ class AudioPlaybackManager: ObservableObject {
         process.standardOutput = outputPipe
         process.standardError = errorPipe
 
-        try process.run()
+        do {
+            try process.run()
+        } catch {
+            print("Failed to run yt-dlp process: \(error.localizedDescription)")
+            throw AudioPlaybackError.extractionFailed("Failed to run yt-dlp process - \(error.localizedDescription)")
+        }
+
         process.waitUntilExit()
 
         guard process.terminationStatus == 0 else {
@@ -411,7 +421,7 @@ enum AudioPlaybackError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .ytDlpNotFound:
-            return "yt-dlp is not installed.\n\nPlease restart the application to download and install it."
+            return "yt-dlp is not installed.\n\nPlease install it using:\nbrew install yt-dlp"
         case .extractionFailed(let message):
             // Clean up technical error messages for user-friendly display
             if message.contains("Private video") || message.contains("members-only") {

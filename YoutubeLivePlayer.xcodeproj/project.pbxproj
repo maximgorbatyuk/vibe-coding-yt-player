@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		873A1D992F1281F000EE2B13 /* yt-dlp_macos in Resources */ = {isa = PBXBuildFile; fileRef = 873A1D982F1281F000EE2B13 /* yt-dlp_macos */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		873A1D982F1281F000EE2B13 /* yt-dlp_macos */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "yt-dlp_macos"; sourceTree = "<group>"; };
 		87F26DE92F1161BE0081B4D5 /* YoutubeLivePlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YoutubeLivePlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -34,6 +39,7 @@
 			children = (
 				87F26DEB2F1161BE0081B4D5 /* YoutubeLivePlayer */,
 				87F26DEA2F1161BE0081B4D5 /* Products */,
+				873A1D982F1281F000EE2B13 /* yt-dlp_macos */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				873A1D992F1281F000EE2B13 /* yt-dlp_macos in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,12 +13,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var menuBarManager: MenuBarManager?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        YtDlpInstaller.shared.ensureInstalled { [weak self] success in
-            if success {
-                DispatchQueue.main.async {
-                    self?.menuBarManager = MenuBarManager(audioManager: AudioPlaybackManager.shared)
+        if !YtDlpInstaller.shared.isYtDlpInstalled() {
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = "yt-dlp Required"
+                alert.informativeText = "VibeCodingYTPlayer requires yt-dlp to extract audio from YouTube.\n\nPlease install it using Homebrew by running the following command in Terminal:\n\nbrew install yt-dlp"
+                alert.alertStyle = .warning
+                alert.addButton(withTitle: "OK")
+
+                let response = alert.runModal()
+
+                if response == .alertFirstButtonReturn {
+                    NSApplication.shared.terminate(nil)
                 }
             }
+            return
         }
+
+        menuBarManager = MenuBarManager(audioManager: AudioPlaybackManager.shared)
     }
 }
